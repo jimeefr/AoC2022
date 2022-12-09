@@ -12,14 +12,8 @@ cwd = ''
 for l in lines[1:]:
     if l[0] == '$':
         if l[2:4] == "cd":
-            if l[5:] == '..':
-                cwd = "/".join(cwd.split("/")[:-1])
-            else:
-                cwd = cwd + '/' + l[5:]
-        elif l[2:4] == "ls":
-            pass
-        else:
-            print(l," : Command not found")
+            if l[5:] == '..': cwd = "/".join(cwd.split("/")[:-1])
+            else: cwd = cwd + '/' + l[5:]
     else: # ls output
         size,name = l.split()
         if size == "dir": add_child(cwd,name)
@@ -27,16 +21,8 @@ for l in lines[1:]:
 
 def du(dir):
     if G[dir][1] == 0:
-        for d in G[dir][0]:
-            G[dir][1] += du(d)
+        for d in G[dir][0]: G[dir][1] += du(d)
     return G[dir][1]
 
-def du_limit(dir,limit):
-    s = 0
-    if G[dir][1] <= limit and G[dir][0]: s += G[dir][1]
-    for d in G[dir][0]:
-        s += du_limit(d,limit)
-    return s
-
 du('')
-print(du_limit('',100000))
+print(sum([G[d][1] for d in G if G[d][0] and G[d][1] <= 100000]))
