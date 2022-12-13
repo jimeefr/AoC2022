@@ -1,4 +1,5 @@
 from common import read_input
+from ast import literal_eval as eval
 from functools import cmp_to_key
 
 lines = read_input(13)

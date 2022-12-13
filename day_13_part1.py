@@ -1,4 +1,5 @@
 from common import read_input
+from ast import literal_eval as eval
 
 lines = read_input(13)
 lines.append('')
